@@ -2,41 +2,74 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Will you be my GirlFriend?</title>
+
     <link rel="stylesheet" href="style.css" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Special+Elite&display=swap"
       rel="stylesheet"
     />
   </head>
+
   <body>
-    <!--Envelope Screen-->
+    <!-- Screen 1: envelope -->
     <div id="envelope-container">
       <img src="envelope.png" alt="Envelope" id="envelope" />
-      <p>Letter for you</p>
+      <p class="envelope-label">Letter for you</p>
     </div>
 
-    <!--Letter Screen-->
+    <!-- Screen 2: the question -->
     <div id="letter-container">
       <div class="letter-window">
         <h1 id="heading">Will you be my GirlFriend? ❤️</h1>
+
         <img src="cat_heart.gif" class="cat" id="letter-cat" alt="Cat" />
+
         <div class="buttons" id="letter-buttons">
           <img src="yes.png" class="btn yes-btn" alt="YES" />
           <div class="no-wrapper">
             <img src="no.png" class="btn no-btn" alt="NO" />
           </div>
         </div>
+
         <p id="message" class="final-text" style="display: none">
           <strong>Hiii my Beautiful Girlfriend! 🥰</strong>
         </p>
+
+        <!-- Small sealed envelope, shown after YES -->
+        <div id="mail" class="mail" style="display: none">
+          <img src="love-you.png" id="mail-envelope" alt="Open the letter" />
+          <span id="mail-hint">Tap to open 💌</span>
+        </div>
       </div>
     </div>
-    <!-- this was missing -->
 
-    <script src="script.js"></script>
+    <!-- Screen 3: the big letter (outside the window on purpose) -->
+    <div id="letter-overlay" class="letter-overlay">
+      <button id="close-letter" class="close-letter" aria-label="Close letter">✕</button>
+
+      <div class="letter-stage">
+        <img
+          src="letter-final.png"
+          id="letter-gif"
+          class="opening-gif"
+          alt="Opening letter"
+        />
+
+        <div id="letter-text" class="letter-text hidden">
+          <h2 id="letter-title">My Dearest,</h2>
+          <!-- WRITE YOUR LETTER BELOW -->
+          <p id="letter-message">
+            I wish I could be there with you right now. Until then, just
+            remember that I'm always thinking of you. I love you.
+          </p>
+        </div>
+      </div>
+    </div>
 
     <script src="script.js"></script>
   </body>
