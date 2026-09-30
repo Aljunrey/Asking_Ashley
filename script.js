@@ -1,6 +1,7 @@
 // ---------- Settings you can change ----------
-const OPEN_GIF = "envelope-opening.GIF"; // plays first
-const LETTER_IMG = "letter-final.png";   // shown after the GIF
+const IMG_FOLDER = "";                   // e.g. "images/" if your pictures are in a folder
+const OPEN_GIF = IMG_FOLDER + "envelope-opening.GIF"; // plays first
+const LETTER_IMG = IMG_FOLDER + "letter-final.png";   // shown after the GIF
 const GIF_TIME = 1200;                   // how long the GIF plays (ms)
 const NO_MIN_HOP = 45;                   // smallest NO jump (px)
 const NO_MAX_HOP = 90;                   // biggest NO jump (px)
@@ -32,6 +33,8 @@ const yesPhotos = document.getElementById("yes-photos");
     const img = new Image();
     img.src = src;
 });
+
+letterGif.src = LETTER_IMG;
 
 // ---------- Screen 1: click the envelope ----------
 envelope.addEventListener("click", () => {
@@ -99,6 +102,13 @@ yesBtn.addEventListener("click", () => {
 // ---------- Screen 3: open and close the letter ----------
 let openTimer;
 
+function showLetter() {
+    clearTimeout(openTimer);
+    letterGif.src = LETTER_IMG;
+    letterText.classList.remove("hidden");
+    memories.classList.add("in");
+}
+
 function openLetter() {
     clearTimeout(openTimer);
     letterText.classList.add("hidden");
@@ -109,12 +119,15 @@ function openLetter() {
     letterGif.src = OPEN_GIF + "?t=" + Date.now();
     overlay.classList.add("show");
 
-    openTimer = setTimeout(() => {
-        letterGif.src = LETTER_IMG;
-        letterText.classList.remove("hidden");
-        memories.classList.add("in");
-    }, GIF_TIME);
+    openTimer = setTimeout(showLetter, GIF_TIME);
 }
+
+// If the GIF can't be found, skip it and show the letter right away
+letterGif.addEventListener("error", () => {
+    const failed = letterGif.getAttribute("src") || "";
+    console.warn("Could not load image: " + failed + " (check the file name and folder)");
+    if (!failed.includes(LETTER_IMG)) showLetter();
+});
 
 function closeLetterView() {
     clearTimeout(openTimer);
