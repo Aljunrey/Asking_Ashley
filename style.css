@@ -242,3 +242,103 @@ img {
     font-family: inherit;
     color: #b23a3a;
 }
+
+/* ---------- Photos around the letter ---------- */
+
+.memories {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.memory {
+    position: absolute;
+    width: var(--w, clamp(90px, 13vw, 190px));
+    height: auto;
+    max-height: 34vh;
+    object-fit: contain;
+    image-rendering: auto;
+
+    /* sticker look: white outline + soft shadow, no frame */
+    filter:
+        drop-shadow(3px 0 0 #fff) drop-shadow(-3px 0 0 #fff)
+        drop-shadow(0 3px 0 #fff) drop-shadow(0 -3px 0 #fff)
+        drop-shadow(0 6px 8px rgba(120, 60, 60, 0.35));
+
+    /* hidden until the letter has opened */
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(var(--r)) scale(0.5);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    transition-delay: var(--d);
+}
+
+.memories.in .memory {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(var(--r)) scale(1);
+}
+
+/* centers of each photo, matching your red circles */
+.m1 { left: 10%; top: 20%; --r: -6deg; --d: 0s; }
+.m2 { left: 21%; top: 47%; --r: 5deg;  --d: 0.1s; }
+.m3 { left: 10%; top: 79%; --r: -4deg; --d: 0.2s; }
+.m4 { left: 79%; top: 24%; --r: 6deg;  --d: 0.3s; }
+.m5 { left: 89%; top: 52%; --r: -5deg; --d: 0.4s; }
+.m6 { left: 76%; top: 80%; --r: 4deg;  --d: 0.5s; }
+
+/* phones: three photos above the letter, three below */
+@media (max-width: 700px) {
+    .memory { width: 26vw; }
+
+    .m1 { left: 18%; top: 9%;  }
+    .m2 { left: 50%; top: 7%;  }
+    .m3 { left: 82%; top: 9%;  }
+    .m4 { left: 18%; top: 91%; }
+    .m5 { left: 50%; top: 93%; }
+    .m6 { left: 82%; top: 91%; }
+}
+
+/* ---------- Photos around the YES screen ---------- */
+
+.yes-photos {
+    position: fixed;
+    z-index: 5;
+}
+
+.yes-photos .memory {
+    --w: clamp(100px, 11vw, 200px);
+}
+
+/* centers of each photo, matching your red circles */
+.y1 { left: 5%;  top: 16%; --r: -6deg; --d: 0s; }
+.y2 { left: 20%; top: 12%; --r: 5deg;  --d: 0.1s; }
+.y3 { left: 13%; top: 48%; --r: -4deg; --d: 0.2s; }
+.y4 { left: 8%;  top: 81%; --r: 6deg;  --d: 0.3s; }
+.y5 { left: 19%; top: 83%; --r: -5deg; --d: 0.4s; }
+.y6 { left: 81%; top: 11%; --r: 5deg;  --d: 0.5s; }
+.y7 { left: 94%; top: 25%; --r: -6deg; --d: 0.6s; }
+.y8 { left: 88%; top: 50%; --r: 4deg;  --d: 0.7s; }
+
+/* on narrow screens there is no room beside the window */
+@media (max-width: 900px) {
+    .yes-photos { display: none; }
+}
+
+/* ---------- Draggable stickers ---------- */
+
+/* only clickable once they have appeared */
+.memories.in .memory {
+    pointer-events: auto;
+    cursor: grab;
+    touch-action: none;       /* lets phones drag instead of scroll */
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.memories.in .memory.dragging {
+    cursor: grabbing;
+    transform: translate(-50%, -50%) rotate(var(--r)) scale(1.1);
+    filter:
+        drop-shadow(3px 0 0 #fff) drop-shadow(-3px 0 0 #fff)
+        drop-shadow(0 3px 0 #fff) drop-shadow(0 -3px 0 #fff)
+        drop-shadow(0 12px 14px rgba(120, 60, 60, 0.4));
+}

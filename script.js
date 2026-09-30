@@ -24,6 +24,8 @@ const overlay = document.getElementById("letter-overlay");
 const closeLetter = document.getElementById("close-letter");
 const letterGif = document.getElementById("letter-gif");
 const letterText = document.getElementById("letter-text");
+const memories = document.getElementById("memories");
+const yesPhotos = document.getElementById("yes-photos");
 
 // Load the letter images early so nothing flickers later
 [OPEN_GIF, LETTER_IMG].forEach((src) => {
@@ -91,6 +93,7 @@ yesBtn.addEventListener("click", () => {
     buttons.style.display = "none";
     finalText.style.display = "block";
     mail.style.display = "flex";
+    yesPhotos.classList.add("in");
 });
 
 // ---------- Screen 3: open and close the letter ----------
@@ -99,6 +102,7 @@ let openTimer;
 function openLetter() {
     clearTimeout(openTimer);
     letterText.classList.add("hidden");
+    memories.classList.remove("in");
 
     // "?t=" makes the GIF restart from its first frame every time
     letterGif.src = OPEN_GIF + "?t=" + Date.now();
@@ -107,11 +111,13 @@ function openLetter() {
     openTimer = setTimeout(() => {
         letterGif.src = LETTER_IMG;
         letterText.classList.remove("hidden");
+        memories.classList.add("in");
     }, GIF_TIME);
 }
 
 function closeLetterView() {
     clearTimeout(openTimer);
+    memories.classList.remove("in");
     overlay.classList.remove("show");
 }
 
@@ -124,4 +130,54 @@ overlay.addEventListener("click", (e) => {
 
 document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") closeLetterView();
+});
+
+// ---------- Draggable stickers ----------
+let topZ = 10;
+
+document.querySelectorAll(".memory").forEach((sticker) => {
+    let offsetX = 0;
+    let offsetY = 0;
+    let box = null;
+
+    sticker.setAttribute("draggable", "false");
+
+    sticker.addEventListener("pointerdown", (e) => {
+        e.preventDefault();
+
+        // the sticker's position is its center, so remember where we grabbed it
+        box = sticker.parentElement.getBoundingClientRect();
+        const r = sticker.getBoundingClientRect();
+        offsetX = e.clientX - (r.left + r.width / 2);
+        offsetY = e.clientY - (r.top + r.height / 2);
+
+        sticker.style.transitionDelay = "0s"; // no entrance delay while dragging
+        sticker.style.zIndex = ++topZ;        // bring it to the front
+        sticker.classList.add("dragging");
+        sticker.setPointerCapture(e.pointerId);
+    });
+
+    sticker.addEventListener("pointermove", (e) => {
+        if (!sticker.classList.contains("dragging")) return;
+
+        // stored as percentages so it still fits if the window is resized
+        let x = ((e.clientX - offsetX - box.left) / box.width) * 100;
+        let y = ((e.clientY - offsetY - box.top) / box.height) * 100;
+
+        x = Math.min(100, Math.max(0, x));
+        y = Math.min(100, Math.max(0, y));
+
+        sticker.style.left = x + "%";
+        sticker.style.top = y + "%";
+    });
+
+    const drop = (e) => {
+        sticker.classList.remove("dragging");
+        if (sticker.hasPointerCapture(e.pointerId)) {
+            sticker.releasePointerCapture(e.pointerId);
+        }
+    };
+
+    sticker.addEventListener("pointerup", drop);
+    sticker.addEventListener("pointercancel", drop);
 });
