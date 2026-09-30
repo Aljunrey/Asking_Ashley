@@ -342,3 +342,20 @@ img {
         drop-shadow(0 3px 0 #fff) drop-shadow(0 -3px 0 #fff)
         drop-shadow(0 12px 14px rgba(120, 60, 60, 0.4));
 }
+
+/* ---------- Letter view: real photos as prints (the YES screen keeps stickers) ---------- */
+
+#memories .memory {
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    max-height: none;
+    background: #fff;
+    border: 8px solid #fff;
+    border-bottom-width: 26px;
+    box-shadow: 0 6px 16px rgba(120, 60, 60, 0.3);
+    filter: none;
+}
+
+#memories.in .memory.dragging {
+    box-shadow: 0 14px 24px rgba(120, 60, 60, 0.4);
+}

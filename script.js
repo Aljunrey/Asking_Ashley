@@ -103,6 +103,7 @@ function openLetter() {
     clearTimeout(openTimer);
     letterText.classList.add("hidden");
     memories.classList.remove("in");
+    yesPhotos.style.visibility = "hidden"; // no faded copies behind the letter
 
     // "?t=" makes the GIF restart from its first frame every time
     letterGif.src = OPEN_GIF + "?t=" + Date.now();
@@ -118,6 +119,7 @@ function openLetter() {
 function closeLetterView() {
     clearTimeout(openTimer);
     memories.classList.remove("in");
+    yesPhotos.style.visibility = "";
     overlay.classList.remove("show");
 }
 
