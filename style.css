@@ -199,19 +199,15 @@ img {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 52%;
-    max-height: 78%;
-    overflow-y: auto;
-    scrollbar-width: none;
-    text-align: center;
+    width: 56%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
     font-family: "Special Elite", monospace;
     color: #4a3030;
     opacity: 1;
     transition: opacity 1.5s ease;
-}
-
-.letter-text::-webkit-scrollbar {
-    display: none;
 }
 
 .letter-text.hidden {
@@ -219,16 +215,61 @@ img {
     transition: none;
 }
 
+/* greeting */
 .letter-text h2 {
-    margin: 0 0 16px;
-    font-size: clamp(16px, 3.4vw, 26px);
+    margin: 0 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px dashed rgba(138, 90, 70, 0.4);
+    font-size: clamp(15px, 3vw, 22px);
     font-weight: normal;
 }
 
-.letter-text p {
-    margin: 0;
-    font-size: clamp(12px, 2.4vw, 18px);
+/* the part that scrolls */
+.letter-body {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 8px;
+    scrollbar-width: thin;
+    scrollbar-color: #b9806a transparent;
+}
+
+.letter-body p {
+    margin: 0 0 12px;
+    font-size: clamp(11px, 1.9vw, 15px);
     line-height: 1.6;
+}
+
+.letter-body .ask {
+    font-style: italic;
+}
+
+/* date bottom-left, signature bottom-right */
+.letter-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 12px;
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 2px dashed rgba(138, 90, 70, 0.4);
+}
+
+.letter-date {
+    font-size: clamp(10px, 1.6vw, 13px);
+    opacity: 0.75;
+}
+
+.letter-sign {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    font-size: clamp(11px, 1.9vw, 15px);
+    line-height: 1.4;
+}
+
+.letter-sign strong {
+    font-size: clamp(14px, 2.6vw, 20px);
+    font-weight: normal;
 }
 
 .close-letter {
