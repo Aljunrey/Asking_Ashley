@@ -28,6 +28,29 @@ const letterText = document.getElementById("letter-text");
 const memories = document.getElementById("memories");
 const yesPhotos = document.getElementById("yes-photos");
 
+const bgm = document.getElementById("bgm");
+const musicBtn = document.getElementById("music-btn");
+bgm.volume = 0.4; // 0 is silent, 1 is full volume
+
+// Browsers only allow music after a click, so we start it on the first envelope click
+function startMusic() {
+    bgm.play()
+        .then(() => {
+            musicBtn.style.display = "block";
+        })
+        .catch(() => {}); // the browser refused, so stay silent
+}
+
+musicBtn.addEventListener("click", () => {
+    if (bgm.paused) {
+        bgm.play();
+        musicBtn.textContent = "🔊";
+    } else {
+        bgm.pause();
+        musicBtn.textContent = "🔇";
+    }
+});
+
 // Load the letter images early so nothing flickers later
 [OPEN_GIF, LETTER_IMG].forEach((src) => {
     const img = new Image();
@@ -38,6 +61,7 @@ letterGif.src = LETTER_IMG;
 
 // ---------- Screen 1: click the envelope ----------
 envelope.addEventListener("click", () => {
+    startMusic();
     envelope.style.display = "none";
     letter.style.display = "flex";
 
